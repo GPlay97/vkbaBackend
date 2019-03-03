@@ -1,0 +1,6 @@
+{
+  "PORT": 3000,
+  "DB_NAME": "vkba",
+  "DB_URL": "mongodb://localhost:27017",
+  "JWT_SECRET": "secret"
+}
