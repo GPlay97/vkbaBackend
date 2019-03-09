@@ -2,13 +2,15 @@
 const app = require('../app');
 const http = require('http');
 const config = require('../config.json');
+const logger = require('../utils/logger');
 
 app.set('port', config.PORT);
+app.set('environment', config.ENVIRONMENT);
 
 const server = http.createServer(app);
 
 server.listen(config.PORT);
 server.on('error', (err) => {
-    console.error(err);
+    logger.error(err);
 });
-server.on('listening', () => console.log('Server started on port '  + config.PORT));
+server.on('listening', () => logger.info(`Server started on port ${config.PORT} as ${config.ENVIRONMENT} environment`));
