@@ -20,8 +20,20 @@
     "message": "Missing token"
   },
   "UNAUTHORIZED": {
-    "code": 6,
+    "code": 401,
     "message": "Unauthorized"
+  },
+  "NOT_FOUND": {
+    "code": 404,
+    "message": "Not found"
+  },
+  "UNPROCESSABLE_ENTITY": {
+    "code": 422,
+    "message": "Unprocessable entity"
+  },
+  "INTERNAL_ERROR": {
+    "code": 500,
+    "message": "Internal error occurred"
   },
   "UNKNOWN_ROUTE": {
     "code": 7,
