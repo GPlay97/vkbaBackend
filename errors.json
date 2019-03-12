@@ -38,5 +38,9 @@
   "UNKNOWN_ROUTE": {
     "code": 7,
     "message": "Unknown operation. Your request could not be processed"
+  },
+  "BANK_PARSING": {
+    "code": 8,
+    "message": "Parsing of banking transactions failed"
   }
 }

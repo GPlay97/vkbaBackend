@@ -3,5 +3,7 @@
   "ENVIRONMENT": "development",
   "DB_NAME": "vkba",
   "DB_URL": "mongodb://localhost:27017",
+  "BANK_URL": "https://bank.kadcon.de/index.php",
+  "BANK_TOKEN": "myToken",
   "JWT_SECRET": "secret"
 }
