@@ -4,6 +4,7 @@ const config = require('./config.json');
 const logger = require('./utils/logger');
 
 const usersRouter = require('./routes/users');
+const bankRouter = require('./routes/bank');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // route handling
 app.use('/users', usersRouter);
+app.use('/bank', bankRouter);
 
 // unknown route
 app.use((_, res) => res.status(404).json(errors.UNKNOWN_ROUTE));
