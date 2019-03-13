@@ -1,5 +1,7 @@
 const request = require('request');
 const config = require('../config.json');
+const logger = require('../utils/logger');
+const errors = require('../errors.json');
 
 const sendRequest = async (params, cookie, followRedirect) => {
   return new Promise((resolve, reject) => {
@@ -10,7 +12,10 @@ const sendRequest = async (params, cookie, followRedirect) => {
           jar: cookie ? request.jar().setCookie(cookie, config.BANK_URL) : true,
           followRedirect: !!followRedirect
       }, (err, response, body) => {
-          if (err) return reject(err);
+          if (err) {
+              logger.error('Bank parsing request', err);
+              return reject(errors.BANK_PARSING);
+          }
           resolve({
               response,
               body
