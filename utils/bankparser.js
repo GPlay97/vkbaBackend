@@ -1,6 +1,5 @@
 const request = require('request');
 const config = require('../config.json');
-const errors = require('../errors.json');
 
 const sendRequest = async (params, cookie, followRedirect) => {
   return new Promise((resolve, reject) => {
@@ -26,9 +25,8 @@ const getCookie = async () => {
 };
 
 const getContent = async (cookie) => {
-    // &accounts[]=*vkba&type=PowerSign
-    return sendRequest('limit=250', cookie, true)
-        .then((obj) => obj.body);
+    return sendRequest('limit=250&accounts[]=*vkba&type=PowerSign', cookie, true)
+        .then((obj) => parseContent(obj.body));
 };
 
 const parseContent = (content) => {
@@ -36,22 +34,17 @@ const parseContent = (content) => {
         .split('<tr class="hover">').filter((_, key) => key)
         .map((b) => b.split(/<\/?td[^>]*>/).filter((c) => c.trim()))
         .map((row) => ({
-            timestamp: row[0],
-            account: row[1]
+            timestamp: parseInt(new Date(row[0]) / 1000) || 0,
+            sender: row[1],
+            amount: parseFloat(row[3]) || 0,
+            receiver: row[4],
+            usage: 'Einzahlung via VKBA-Geldautomat'
         }));
 };
 
 const getPage = async (page) => {
-    try {
-        const cookie = await getCookie();
-
-        console.log({cookie});
-        getContent(cookie)
-            .then((content) => console.log(parseContent(content)))
-            .catch((err) => console.error(err));
-    } catch (err) {
-        console.error(err);
-    }
+    // TODO page
+    return getContent(await getCookie());
 };
 
 
