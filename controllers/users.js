@@ -29,7 +29,7 @@ const isValidRegistration = async (req, res, next) => {
 };
 const isValidLogin = async (req, res, next) => {
     try {
-        if (await users.getUser(req.params.name)) {
+        if ((req.user = await users.getUser(req.params.name))) {
             if (!users.isValidPassword(req.body.password)) return res.json(errors.PASSWORD_TOO_SHORT);
             return next();
         }
@@ -43,13 +43,18 @@ const registerUser = async (req, res, next) => {
         name: req.params.name,
         password: await bcrypt.hash(req.body.password, 10),
         balance: 0 // TODO make a transaction afterwards and add a start credit that can not be payed out
-    }).then((user) => res.json(user)).catch(next)
+    }).then((user) => {
+        // TODO start session
+        res.json(user);
+    }).catch(next)
 };
 
 const loginUser = async (req, res, next) => {
-    // TODO
-    res.json('login user');
-};
+    await bcrypt.compare(req.body.password, req.user.password).then((correct) => {
+        if (!correct) return next(errors.INVALID_CREDENTIALS);
+        // TODO start session
+        res.json(correct);
+    }).catch(next);};
 
 module.exports = {
     getUsers,
