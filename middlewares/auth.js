@@ -3,15 +3,11 @@ const errors = require('../errors.json');
 const jwt = require('jsonwebtoken');
 
 const isAuthenticated = (req, res, next) => {
-    const token = req.headers['x-access-token'];
-
-    jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
+    jwt.verify(req.headers['x-access-token'], config.JWT_SECRET, (err, decoded) => {
        if (!err && decoded) {
            req.user = decoded;
            next();
-       } else {
-           res.status(401).json(errors.UNAUTHORIZED);
-       }
+       } else next(errors.UNAUTHORIZED);
     });
 };
 

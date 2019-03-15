@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const auth = require('../middlewares/auth');
 const db = require('../utils/db');
 const errors = require('../errors.json');
 const users = require('../modules/users');
@@ -43,18 +44,23 @@ const registerUser = async (req, res, next) => {
         name: req.params.name,
         password: await bcrypt.hash(req.body.password, 10),
         balance: 0 // TODO make a transaction afterwards and add a start credit that can not be payed out
-    }).then((user) => {
-        // TODO start session
-        res.json(user);
+    }).then((result) => {
+        auth.createToken({
+            _id: db.convertID(result.insertedId.id),
+            name: req.params.name
+        }).then((token) => res.json({token}))
     }).catch(next)
 };
 
 const loginUser = async (req, res, next) => {
     await bcrypt.compare(req.body.password, req.user.password).then((correct) => {
         if (!correct) return next(errors.INVALID_CREDENTIALS);
-        // TODO start session
-        res.json(correct);
-    }).catch(next);};
+        auth.createToken({
+            _id: db.convertID(req.user._id.id),
+            name: req.user.name
+        }).then((token) => res.json({token}));
+    }).catch(next);
+};
 
 module.exports = {
     getUsers,
