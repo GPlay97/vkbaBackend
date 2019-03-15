@@ -25,7 +25,10 @@ const query = (type, collection, obj) => {
                 const dbCollection = db.collection(collection);
 
                 exec(type, dbCollection, obj)
-                    .then((result) => resolve(result))
+                    .then((result) => {
+                        logger.debug('DB Query', result);
+                        resolve(obj);
+                    })
                     .catch((err) => {
                         logger.error('Error on database query', err);
                         reject(errors.DB_QUERY);

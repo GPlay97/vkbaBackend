@@ -22,7 +22,10 @@ const getUser = async (name) => {
         });
 };
 
+const isValidPassword = (password) => typeof password === 'string' && password.length >= 6;
+
 module.exports = {
     getUsers,
-    getUser
+    getUser,
+    isValidPassword
 };

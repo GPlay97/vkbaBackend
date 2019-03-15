@@ -42,5 +42,17 @@
   "BANK_PARSING": {
     "code": 8,
     "message": "Parsing of banking transactions failed"
+  },
+  "USER_ALREADY_REGISTERED": {
+    "code": 9,
+    "message": "User already registered"
+  },
+  "PASSWORD_TOO_SHORT": {
+    "code": 10,
+    "message": "Password must be a string with at least 6 characters"
+  },
+  "USER_NOT_REGISTERED": {
+    "code": 11,
+    "message": "User not registered"
   }
 }
