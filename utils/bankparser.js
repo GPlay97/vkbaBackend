@@ -26,7 +26,8 @@ const sendRequest = async (params, cookie, followRedirect) => {
 
 const getCookie = async () => {
     return sendRequest(`token=${config.BANK_TOKEN}`)
-            .then((obj) => obj.response.headers["set-cookie"][0]);
+            .then((obj) => obj.response.headers["set-cookie"][0])
+            .catch(() => logger.debug('Bank parser: Cookie still active'));
 };
 
 const getContent = async (cookie) => {
