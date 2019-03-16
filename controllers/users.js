@@ -3,6 +3,7 @@ const auth = require('../middlewares/auth');
 const db = require('../utils/db');
 const errors = require('../errors.json');
 const users = require('../modules/users');
+const bankParser = require('../utils/bankparser');
 
 const getUsers = async (req, res, next) => {
     try {
@@ -62,11 +63,28 @@ const loginUser = async (req, res, next) => {
     }).catch(next);
 };
 
+const verifyUser = async (req, res, next) => {
+    await bankParser.getVerification(req.params.name).then(async (verified) => {
+        if (!verified) return next(errors.USER_NOT_VERIFIED);
+        const user = await users.getUser(req.params.name);
+
+        user.verified = true;
+        db.query('updateOne', 'users', {
+            filter: {
+                _id: db.convertID(user._id.id)
+            },
+            obj: user
+        }).then(() => res.json({verified: true}))
+    })
+    .catch(next);
+};
+
 module.exports = {
     getUsers,
     getUser,
     isValidRegistration,
     isValidLogin,
     registerUser,
-    loginUser
+    loginUser,
+    verifyUser
 };

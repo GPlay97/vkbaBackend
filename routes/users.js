@@ -7,5 +7,6 @@ router.get('/:name', users.getUser);
 
 router.post('/:name', users.isValidRegistration, users.registerUser);
 router.post('/:name/login', users.isValidLogin, users.loginUser);
+router.post('/:name/verify', users.verifyUser);
 
 module.exports = router;

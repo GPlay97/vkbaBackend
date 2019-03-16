@@ -44,16 +44,23 @@ const parseContent = (content) => {
             sender: row[1],
             amount: parseFloat(row[3]) || 0,
             receiver: row[4],
-            usage: 'Einzahlung via VKBA-Geldautomat'
+            usage: row[6]
         }));
 };
 
-const getPage = async (page) => {
+const getPayIns = async (page) => {
     // TODO page
-    return getContent(await getCookie());
+    return getContent(await getCookie())
+        .then((rows) => rows.filter((row) => row.usage.includes('PAYIN')));
+};
+
+const getVerification = async (name) => {
+    return getContent(await getCookie())
+        .then((rows) => rows.filter((row) => row.usage.includes('VERIFY') && row.receiver === name)[0]);
 };
 
 
 module.exports = {
-    getPage
+    getPayIns,
+    getVerification
 };

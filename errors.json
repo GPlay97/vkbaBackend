@@ -55,6 +55,10 @@
     "code": 11,
     "message": "User not registered"
   },
+  "USER_NOT_VERIFIED": {
+    "code": 12,
+    "message": "User not verified"
+  },
   "INVALID_CREDENTIALS": {
     "code": 401,
     "message": "Invalid credentials"
