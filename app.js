@@ -27,8 +27,8 @@ app.use((err, req, res, next ) => {
     if (res.headersSent) return next(err);
     const status = parseInt(err.status || err.code) || 500;
 
-    res.status(status >= 400 && status < 600 ? status : 500).json({
-        err: config.ENVIRONMENT === 'development' ? err : errors.INTERNAL_ERROR.message
+    res.status(status >= 400 && status < 600 ? status : 422).json({
+        err: config.ENVIRONMENT === 'development' ? err : status === 500 ? errors.INTERNAL_ERROR.message : errors.UNPROCESSABLE_ENTITY.message
     });
 });
 

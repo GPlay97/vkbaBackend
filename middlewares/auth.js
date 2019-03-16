@@ -6,6 +6,7 @@ const isAuthenticated = (req, res, next) => {
     if (typeof req.headers.authorization !== 'string') return next(errors.UNAUTHORIZED);
     jwt.verify(req.headers.authorization.split(' ')[1], config.JWT_SECRET, (err, decoded) => {
        if (!err && decoded) {
+           if (!decoded.verified) return next(errors.USER_NOT_VERIFIED);
            req.user = decoded;
            next();
        } else next(errors.UNAUTHORIZED);

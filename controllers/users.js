@@ -23,20 +23,22 @@ const getUser = async (req, res, next) => {
 
 const isValidRegistration = async (req, res, next) => {
     try {
-        if (await users.getUser(req.params.name)) return res.json(errors.USER_ALREADY_REGISTERED);
+        if (await users.getUser(req.params.name)) return next(errors.USER_ALREADY_REGISTERED);
     } catch (err) {
-        if (!users.isValidPassword(req.body.password)) return res.json(errors.PASSWORD_TOO_SHORT);
+        if (!users.isValidPassword(req.body.password)) return next(errors.PASSWORD_TOO_SHORT);
         next(); // user does not exist
     }
 };
 const isValidLogin = async (req, res, next) => {
     try {
-        if ((req.user = await users.getUser(req.params.name))) {
-            if (!users.isValidPassword(req.body.password)) return res.json(errors.PASSWORD_TOO_SHORT);
-            return next();
-        }
+        const user = await users.getUser(req.params.name);
+
+        if (!users.isValidPassword(req.body.password)) return next(errors.PASSWORD_TOO_SHORT);
+        if (!user.verified) return next(errors.USER_NOT_VERIFIED);
+        req.user = user;
+        return next();
     } catch (err) {
-        res.json(errors.USER_NOT_REGISTERED);
+        next(errors.USER_NOT_REGISTERED);
     }
 };
 
