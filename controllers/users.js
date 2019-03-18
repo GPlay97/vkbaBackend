@@ -58,10 +58,7 @@ const registerUser = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
     await bcrypt.compare(req.body.password, req.user.password).then((correct) => {
         if (!correct) return next(errors.INVALID_CREDENTIALS);
-        auth.createToken({
-            _id: db.convertID(req.user._id.id),
-            name: req.user.name
-        }).then((token) => res.json({token}));
+        auth.createToken(req.user).then((token) => res.json({token}));
     }).catch(next);
 };
 
