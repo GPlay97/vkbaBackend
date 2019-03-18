@@ -59,6 +59,10 @@
     "code": 12,
     "message": "User not verified"
   },
+  "USER_NOT_FOUND": {
+    "code": 404,
+    "message": "User not found"
+  },
   "INVALID_CREDENTIALS": {
     "code": 401,
     "message": "Invalid credentials"

@@ -15,7 +15,7 @@ const getUser = async (name) => {
     return db.query('find', 'users', {
         name
     })
-        .then((user) => user[0] || Promise.reject(errors.NOT_FOUND))
+        .then((user) => user[0] || Promise.reject(errors.USER_NOT_FOUND))
         .catch((err) => {
             logger.warn('Could not get user', err);
             return Promise.reject(err);
