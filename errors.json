@@ -66,5 +66,9 @@
   "INVALID_CREDENTIALS": {
     "code": 401,
     "message": "Invalid credentials"
+  },
+  "INVALID_TRANSACTION": {
+    "code": 13,
+    "message": "Transaction is invalid"
   }
 }
