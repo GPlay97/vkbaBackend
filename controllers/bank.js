@@ -7,12 +7,10 @@ const redeemCredits = (req, res, next) => {
     bankParser.getPayIns()
         .then((entries) => {
             console.log(entries);
-
-            transaction.createTransaction(entries[0])
-                .then((obj) => console.log(obj))
-                .catch((err) => console.error(err)); // DEMO
-            // TODO insert them, redeem them..
             res.json(entries);
+            // TODO check if entry already credited
+            Promise.all(entries.map((entry) => transaction.createTransactionFromSystem(entry)))
+                .catch(() => null);
         })
         .catch(next)
 };

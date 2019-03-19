@@ -70,5 +70,9 @@
   "INVALID_TRANSACTION": {
     "code": 13,
     "message": "Transaction is invalid"
+  },
+  "INSUFFICIENT_FUNDS": {
+    "code": 14,
+    "message": "Not enough funds"
   }
 }
