@@ -42,7 +42,8 @@ const exec = (fnc, collection, obj) => {
                 .then((result) => resolve(result))
                 .catch((err) => reject(err));
         } else if (fnc === 'updateOne') {
-            collection[fnc](obj.filter, { $set: obj.obj})
+            const updateObj = obj.inc ? { $inc: obj.inc} : { $set: obj.obj};
+            collection[fnc](obj.filter, updateObj)
                 .then((result) => resolve(result))
                 .catch((err) => reject(err));
         } else {
